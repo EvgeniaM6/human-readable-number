@@ -13,34 +13,26 @@ module.exports = function toReadable (number) {
   if (thirdDigitFromEnd) {
     getDigit(thirdDigitFromEnd);
     result = digitString + ' hundred'
-
-    if (secondDigitFromEnd !== '0') {
-      getDecade(secondDigitFromEnd);
-      result += ' ' + decadeString;
-    };
-
-    if (lastDigitFromEnd !== '0' && secondDigitFromEnd !== '1') {
-      getDigit(lastDigitFromEnd);
-      result += ' ' + digitString;
-    };
-
-  } else if (secondDigitFromEnd) {
-    getDecade(secondDigitFromEnd);
-    result = decadeString;
-
-    if (lastDigitFromEnd !== '0' && secondDigitFromEnd !== '1') {
-      getDigit(lastDigitFromEnd);
-      result += ' ' + digitString;
-    };
-    
-  } else {
-    if (lastDigitFromEnd === '0') {
-      result = 'zero'
-    } else {
-      getDigit(lastDigitFromEnd);
-      result = digitString
-
+  }
+  
+  if (secondDigitFromEnd && secondDigitFromEnd !== '0') {
+    if (thirdDigitFromEnd) {
+      result += ' '
     }
+    getDecade(secondDigitFromEnd);
+    result += decadeString;
+  }
+
+  if (lastDigitFromEnd !== '0' && secondDigitFromEnd !== '1') {
+    if (secondDigitFromEnd || thirdDigitFromEnd) {
+      result += ' '
+    }
+    getDigit(lastDigitFromEnd);
+    result += digitString;
+  };
+    
+  if (numberString === '0') {
+    result = 'zero'
   };
 
   function getDecade(decadeDigit) {
